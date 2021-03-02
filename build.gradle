@@ -1,0 +1,60 @@
+import org.gradle.internal.jvm.Jvm
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradlePlugin"
+        classpath "org.jacoco:org.jacoco.core:$jacoco"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:$maven"
+        classpath "com.monits:static-code-analysis-plugin:$staticCodeAnalysis"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin"
+        implementation 'com.mercadopago.android.px:checkout:4.+'
+         compile 'com.mercadopago:sdk:3.8.1'
+
+    }
+}
+
+ext {
+    dateNow = project.hasProperty('production') ? "" : new Date().format("ddMMyyyyHHmmssS")
+}
+
+subprojects {
+    repositories {
+        mavenLocal()
+        google()
+        jcenter()
+    }
+}
+
+// Aggregate javadoc task
+rootProject.gradle.projectsEvaluated {
+    task javadoc(type:Javadoc) { Javadoc self ->
+        failOnError = false
+        options.encoding = 'UTF-8'
+
+        // JDK 1.8 is more strict then 1.7. Have JDK 1.8 behave like 1.7 for javadoc generation
+        if (Jvm.current().getJavaVersion().isJava8Compatible()) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+
+        destinationDir = file("$buildDir/docs/javadoc")
+
+        subprojects.each {
+            it.tasks.withType(Javadoc).all { task ->
+                self.dependsOn += task.dependsOn
+                self.source += task.source
+                self.classpath += task.classpath
+                self.excludes += task.excludes
+            }
+        }
+    }
+}

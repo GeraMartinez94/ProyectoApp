@@ -1,0 +1,40 @@
+<ion-toolbar>
+  <ion-buttons slot="start" >
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+  <h1>
+    Productos
+  </h1>
+  
+  <ion-button onclick="toggleReorder()">Toggle</ion-button>
+</ion-toolbar>
+
+<ion-content>
+<div *ngFor="let product of products ">
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+<ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando datos...">
+      <ion-card [routerLink]="['/products', product.id]">
+
+        <h1>
+          <img src="../../assets/índice.jpg">
+        </h1>
+        <h3>
+    <a [title]="product.name + ' details'"[routerLink]="['/products', product.id]">
+      {{ product.name }}
+    </a>
+  </h3>
+
+  <p *ngIf="product.description">
+    {{ product.description }}
+  </p>
+  <ion-button [routerLink]="['./products', product.id]">
+    Ver +
+  </ion-button>
+</ion-reorder-group>
+</ion-card>
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+</div>
+</ion-content>

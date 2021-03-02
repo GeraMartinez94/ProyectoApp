@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <h1>
+      Detalle Producto
+    </h1>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<div *ngIf="product">
+  <ion-card>
+  <h1>
+     <img src="../../assets/índice.jpg">
+  </h1>
+  <h3>{{ product.name }}</h3>
+  <h4>{{ product.price | currency }}</h4>
+  <p>{{ product.description }}</p>
+  <ion-button (click)="getAllProduct()">Comprar Producto</ion-button>
+</ion-card>
+</div>
+</ion-content>

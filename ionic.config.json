@@ -1,0 +1,7 @@
+{
+  "name": "apcompras",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
