@@ -1,6 +1,6 @@
 <ion-app>
   <ion-menu-toggle>
-<ion-menu side="start" menuId="first" contentId="main">
+<ion-menu side="start" type ="push"menuId="first" contentId="main">
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
@@ -18,7 +18,7 @@
     <ion-toggle slot="end"
     [ngModel]="darkMode"
     (ionChange)="cambio()"></ion-toggle>
-        Modo oscuro
+        Modo Nocturno
     </ion-item>
     
     <ion-item [routerLink]="['']">

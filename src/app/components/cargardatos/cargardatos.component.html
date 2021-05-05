@@ -9,20 +9,35 @@
 
 
 <ion-content>
-        <ion-card>
+ 
+  <form>
       <ion-item>
         <ion-label position="floating" >Titulo de Producto</ion-label>
         <ion-input></ion-input>
-      </ion-item>            
-      <ion-label position="floating" >Descripcion del Producto</ion-label>
+      </ion-item>         
+      <ion-item>   
+      <ion-label position="floating" >Descripción de Producto</ion-label>
       <ion-input></ion-input>
-        <ion-input type="file" class="d-none" (change)="onPhotoSelected($event)">
-          <img src="/../assets/índice.jpg" 
-         class="img-fluid" 
-         alt="No Image">
-        </ion-input>
-        <ion-button class= "btn btn-primary  btn-block">
+      </ion-item>
+      <ion-item>   
+        <ion-label position="floating" >Precio </ion-label>
+        <ion-input placeholder="$$"></ion-input>
+        </ion-item>
+      <ion-grid>
+        <ion-row>
+         <ion-col size="6" 
+         *ngFor="let photo of photoService.photos; index as position">
+          <ion-img [src]="photo.webviewPath"       
+           (click)="showActionSheet(photo, position)"></ion-img>
+         </ion-col>
+        </ion-row>
+       </ion-grid>
+        <ion-fab-button (click)="addPhotoToGallery()">
+          <ion-icon name="camera"></ion-icon>
+        </ion-fab-button> 
+          
+        <ion-button shape="round"  >
            Cargar
         </ion-button>
-            </ion-card>
+          </form>
       </ion-content>

@@ -22,5 +22,6 @@ export class AppComponent {
   cambio(){
     this.darkMode = !this.darkMode;
    document.body.classList.toggle('dark');
+   
   }
 }

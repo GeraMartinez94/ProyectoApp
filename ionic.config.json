@@ -1,7 +1,8 @@
 {
   "name": "apcompras",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }

@@ -3,6 +3,11 @@ import { products } from '../../products';
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import { Photo, PhotosService } from '../../service/photos.service';
+import { ActionSheetController } from '@ionic/angular';
+
+
+
 interface HtmlInputEvent extends Event{
   
   target: HTMLInputElement & EventTarget
@@ -25,7 +30,12 @@ export class CargardatosComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private menu: MenuController,
-    private http:HttpClientModule ) {}
+    private http:HttpClientModule,
+    public photoService: PhotosService,
+    public actionSheetController: ActionSheetController ) {}
+
+
+
     openFirst() {
       this.menu.enable(true, 'first');
       this.menu.open('first');
@@ -39,12 +49,19 @@ export class CargardatosComponent implements OnInit {
       this.menu.enable(true, 'custom');
       this.menu.open('custom');
     }
-  ngOnInit() {
+    
+addPhotoToGallery() {
+  this.photoService.addNewToGallery();
+}
+    async ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
     const productIdFromRoute = Number(routeParams.get('productId'));
     this.product = products.find(product => product.id === productIdFromRoute);
+    await this.photoService.loadSaved();
     
   }
+
+  
   onPhotoSelected(event): void{
 
     if (event.target.files & event.target.files[0]){
@@ -56,6 +73,27 @@ export class CargardatosComponent implements OnInit {
 
     }
 
+  }
+  public async showActionSheet(photo: Photo, position: number) {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Photos',
+      buttons: [{
+        text: 'Delete',
+        role: 'destructive',
+        icon: 'trash',
+        handler: () => {
+          this.photoService.deletePicture(photo, position);
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          // Nothing to do, action sheet is automatically closed
+          }
+      }]
+    });
+    await actionSheet.present();
   }
   
   CargarFoto(title: HTMLInputElement, description: HTMLTextAreaElement): boolean{

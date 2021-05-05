@@ -11,13 +11,15 @@
 <ion-content>
 <div *ngIf="product">
   <ion-card>
+    <ion-card>
   <h1>
      <img src="../../assets/índice.jpg">
   </h1>
+</ion-card>
   <h3>{{ product.name }}</h3>
   <h4>{{ product.price | currency }}</h4>
   <p>{{ product.description }}</p>
-  <ion-button (click)="getAllProduct()">Comprar Producto</ion-button>
+  <ion-button shape="round" expand="block" (click)="getAllProduct()">Comprar Producto</ion-button>
 </ion-card>
 </div>
 </ion-content>
